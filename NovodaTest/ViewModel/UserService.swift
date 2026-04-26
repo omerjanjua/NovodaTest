@@ -36,7 +36,7 @@ final class UserService: UserServiceProtocol {
         }
         
         do {
-            let userResponse = try JSONDecoder().decode([User].self, from: data)
+            let userResponse = try JSONDecoder().decode(UserResponse.self, from: data)
             return userResponse.items
         } catch {
             throw APIError.decodingFailed

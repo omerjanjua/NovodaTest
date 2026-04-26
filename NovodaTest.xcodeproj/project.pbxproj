@@ -27,6 +27,7 @@
 		BAE588E82F9E1B0F004EC6FD /* NovodaTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NovodaTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAE588FE2F9E1B10004EC6FD /* NovodaTestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NovodaTestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAE589082F9E1B10004EC6FD /* NovodaTestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NovodaTestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAE589292F9EA71B004EC6FD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -88,6 +89,7 @@
 		BAE588DF2F9E1B0E004EC6FD = {
 			isa = PBXGroup;
 			children = (
+				BAE589292F9EA71B004EC6FD /* README.md */,
 				BAE588EA2F9E1B0F004EC6FD /* NovodaTest */,
 				BAE589012F9E1B10004EC6FD /* NovodaTestTests */,
 				BAE5890B2F9E1B10004EC6FD /* NovodaTestUITests */,

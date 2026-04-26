@@ -22,3 +22,8 @@ To run app use the following steps.
 
 ## Architecture
 The app uses MVVM, the industry's most common architecture today. Because it separates logic from UI, making the code easier to test and maintain.
+
+## Extra 
+Added extension to decodedHTMLEntities
+NSAttributedString is not very light weight. For performance reasons it's better to cache this when displaying on UI. But for the purpose of this exercise since it only requires to display 20 items it is ok.
+

@@ -9,13 +9,17 @@ import Foundation
 
 struct User: Decodable {
     let id: Int
-    let displayName: String
+    let rawDisplayName: String
     let reputation: Int
     let profileImageURL: String
     
+    var displayName: String {
+        rawDisplayName.decodedHTMLEntities
+    }
+    
     enum CodingKeys: String, CodingKey {
         case id = "user_id"
-        case displayName = "display_name"
+        case rawDisplayName = "display_name"
         case reputation
         case profileImageURL = "profile_image"
     }

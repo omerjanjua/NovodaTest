@@ -17,7 +17,7 @@ empty state with an error message.
 To run app use the following steps.
 
 - Clone the repo
-- git clone git@github.com:omerjanjua/NovodaTest.git
+- git clone `git@github.com:omerjanjua/NovodaTest.git`
 - Open `NovodaTest.xcodeproj` in Xcode
 - Run from Xcode
 

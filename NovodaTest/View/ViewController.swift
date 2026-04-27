@@ -48,12 +48,6 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-}
-
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return users.count
@@ -72,6 +66,9 @@ extension ViewController: UITableViewDataSource {
         content.imageProperties.reservedLayoutSize = CGSize(width: 40, height: 40)
         cell.contentConfiguration = content
         
+        let isFollowed = FollowManager.shared.isFollowing(userID: user.id)
+        cell.accessoryType = isFollowed ? .checkmark : .none
+        
         Task {
             do {
                 let image = try await imageService.fetchImage(from: user.profileImageURL)
@@ -88,3 +85,19 @@ extension ViewController: UITableViewDataSource {
     }
 }
 
+extension ViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let user = users[indexPath.row]
+        FollowManager.shared.toggleFollow(userID: user.id)
+        
+        /* Update only the accessory of the visible cell
+         instead of calling tableView.reloadData()
+         */
+        if let cell = tableView.cellForRow(at: indexPath) {
+            let isNowFollowed = FollowManager.shared.isFollowing(userID: user.id)
+            cell.accessoryType = isNowFollowed ? .checkmark : .none
+        }
+    }
+}

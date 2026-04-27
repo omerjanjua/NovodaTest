@@ -38,3 +38,8 @@ Added extension to decodedHTMLEntities
 NSAttributedString is not very light weight. For performance reasons it's better to cache this when displaying on UI. But for the purpose of this exercise since it only requires to display 20 items it is ok.
 
 If the app was pulling in a lot more data. I would introduce loading state where a loading spinner would appear while loading.
+
+## UITests
+
+UITests was not part of the Technical Specifications. However, if I was to improve the UITests further I would use the Page Object Model Pattern. 
+And WireMock for mocking different responses.

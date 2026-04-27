@@ -11,7 +11,7 @@ struct User: Decodable {
     let id: Int
     let rawDisplayName: String
     let reputation: Int
-    let profileImageURL: String
+    let profileImageURL: String?
     
     var displayName: String {
         rawDisplayName.decodedHTMLEntities

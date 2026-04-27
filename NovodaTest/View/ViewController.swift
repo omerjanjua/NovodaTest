@@ -11,7 +11,8 @@ class ViewController: UIViewController {
 
     private let service = UserService()
     private let imageService = ImageService()
-    private var users: [User] = []
+    private let viewModel = UsersViewModel()
+
     @IBOutlet var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -26,7 +27,7 @@ class ViewController: UIViewController {
                 let fetchedUsers = try await service.fetchUsers()
                 // Update UI on the main thread
                 await MainActor.run {
-                    self.users = fetchedUsers
+                    self.viewModel.users = fetchedUsers
                     self.tableView.reloadData()
                 }
             } catch {
@@ -50,13 +51,13 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return users.count
+        viewModel.numberOfUsers()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: String(describing: UITableView.self))
-        let user = users[indexPath.row]
+        let user = viewModel.users[indexPath.row]
         var content = cell.defaultContentConfiguration()
         content.text = user.displayName
         content.secondaryText = String(user.reputation)
@@ -66,7 +67,7 @@ extension ViewController: UITableViewDataSource {
         content.imageProperties.reservedLayoutSize = CGSize(width: 40, height: 40)
         cell.contentConfiguration = content
         
-        let isFollowed = FollowManager.shared.isFollowing(userID: user.id)
+        let isFollowed = viewModel.isFollowing(userAt: indexPath.row)
         cell.accessoryType = isFollowed ? .checkmark : .none
         
         Task {
@@ -89,14 +90,13 @@ extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let user = users[indexPath.row]
-        FollowManager.shared.toggleFollow(userID: user.id)
+        viewModel.toggleFollow(at: indexPath.row)
         
         /* Update only the accessory of the visible cell
          instead of calling tableView.reloadData()
          */
         if let cell = tableView.cellForRow(at: indexPath) {
-            let isNowFollowed = FollowManager.shared.isFollowing(userID: user.id)
+            let isNowFollowed = viewModel.isFollowing(userAt: indexPath.row)
             cell.accessoryType = isNowFollowed ? .checkmark : .none
         }
     }

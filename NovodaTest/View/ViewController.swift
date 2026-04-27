@@ -9,8 +9,6 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    private let service = UserService()
-    private let imageService = ImageService()
     private let viewModel = UsersViewModel()
 
     @IBOutlet var tableView: UITableView!
@@ -24,10 +22,9 @@ class ViewController: UIViewController {
     private func loadUsers() {
         Task {
             do {
-                let fetchedUsers = try await service.fetchUsers()
+                try await viewModel.fetchUsers()
                 // Update UI on the main thread
                 await MainActor.run {
-                    self.viewModel.users = fetchedUsers
                     self.tableView.reloadData()
                 }
             } catch {
@@ -72,7 +69,7 @@ extension ViewController: UITableViewDataSource {
         
         Task {
             do {
-                let image = try await imageService.fetchImage(from: user.profileImageURL)
+                let image = try await viewModel.fetchImage(for: user)
                 content.image = image
                 cell.contentConfiguration = content
             } catch {

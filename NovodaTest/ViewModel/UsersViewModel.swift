@@ -5,17 +5,37 @@
 //  Created by Omer Janjua on 26/04/2026.
 //
 
-import Foundation
+import UIKit
 
 final class UsersViewModel {
 
     var users: [User]
 
+    private let userService: UserServiceProtocol
+    private let imageService: ImageServiceProtocol
     private let followManager: FollowManager
 
-    init(users: [User] = [], followManager: FollowManager = .shared) {
+    init(
+        users: [User] = [],
+        userService: UserServiceProtocol = UserService(),
+        imageService: ImageServiceProtocol = ImageService(),
+        followManager: FollowManager = .shared
+    ) {
         self.users = users
+        self.userService = userService
+        self.imageService = imageService
         self.followManager = followManager
+    }
+
+    @discardableResult
+    func fetchUsers() async throws -> [User] {
+        let fetched = try await userService.fetchUsers()
+        users = fetched
+        return fetched
+    }
+
+    func fetchImage(for user: User) async throws -> UIImage {
+        try await imageService.fetchImage(from: user.profileImageURL)
     }
 
     // MARK: - Users

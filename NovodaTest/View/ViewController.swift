@@ -10,6 +10,7 @@ import UIKit
 class ViewController: UIViewController {
 
     private let service = UserService()
+    private let imageService = ImageService()
     private var users: [User] = []
     @IBOutlet var tableView: UITableView!
     
@@ -62,10 +63,28 @@ extension ViewController: UITableViewDataSource {
         
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: String(describing: UITableView.self))
         let user = users[indexPath.row]
-        cell.textLabel?.text = user.displayName
-        cell.detailTextLabel?.text = String(user.reputation)
-        cell.imageView?.image = UIImage(systemName: "person.circle")
+        var content = cell.defaultContentConfiguration()
+        content.text = user.displayName
+        content.secondaryText = String(user.reputation)
+        content.image = UIImage(systemName: "person.circle")
+        content.imageProperties.cornerRadius = 20
+        content.imageProperties.maximumSize = CGSize(width: 40, height: 40)
+        content.imageProperties.reservedLayoutSize = CGSize(width: 40, height: 40)
+        cell.contentConfiguration = content
+        
+        Task {
+            do {
+                let image = try await imageService.fetchImage(from: user.profileImageURL)
+                content.image = image
+                cell.contentConfiguration = content
+            } catch {
+                await MainActor.run {
+                    self.showErrorAlert(error)
+                }
+            }
+        }
         
         return cell
     }
 }
+

@@ -8,6 +8,7 @@
 import XCTest
 @testable import NovodaTest
 
+@MainActor
 final class UserServiceTests: XCTestCase {
 
     private var session: URLSession!
@@ -40,7 +41,7 @@ final class UserServiceTests: XCTestCase {
             return (response, json)
         }
 
-        let sut = await UserService(client: session, urlString: url)
+        let sut = UserService(client: session, urlString: url)
         let users = try await sut.fetchUsers()
 
         XCTAssertEqual(users.count, 2)
@@ -58,7 +59,7 @@ final class UserServiceTests: XCTestCase {
             return (response, Data())
         }
 
-        let sut = await UserService(client: session, urlString: url)
+        let sut = UserService(client: session, urlString: url)
         await assertThrows(APIError.requestFailed(503)) {
             _ = try await sut.fetchUsers()
         }
@@ -70,7 +71,7 @@ final class UserServiceTests: XCTestCase {
             return (response, Data("not json".utf8))
         }
 
-        let sut = await UserService(client: session, urlString: url)
+        let sut = UserService(client: session, urlString: url)
         await assertThrows(APIError.decodingFailed) {
             _ = try await sut.fetchUsers()
         }
@@ -81,14 +82,14 @@ final class UserServiceTests: XCTestCase {
             throw URLError(.notConnectedToInternet)
         }
 
-        let sut = await UserService(client: session, urlString: url)
+        let sut = UserService(client: session, urlString: url)
         await assertThrows(APIError.transport) {
             _ = try await sut.fetchUsers()
         }
     }
 
     func test_fetchUsers_throwsInvalidURL_whenURLStringMalformed() async {
-        let sut = await UserService(client: session, urlString: "")
+        let sut = UserService(client: session, urlString: "")
         await assertThrows(APIError.invalidURL) {
             _ = try await sut.fetchUsers()
         }

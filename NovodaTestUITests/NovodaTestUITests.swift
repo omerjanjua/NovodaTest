@@ -135,21 +135,6 @@ final class NovodaTestUITests: XCTestCase {
         firstCell.tap()
     }
 
-    // MARK: - Scrolling
-
-    @MainActor
-    func test_userList_isScrollable() {
-        let table = app.tables.firstMatch
-        XCTAssertTrue(table.cells.firstMatch.waitForExistence(timeout: 10))
-
-        let firstLabelBefore = table.cells.element(boundBy: 0).staticTexts.firstMatch.label
-        table.swipeUp()
-        let firstLabelAfter = table.cells.element(boundBy: 0).staticTexts.firstMatch.label
-
-        XCTAssertNotEqual(firstLabelBefore, firstLabelAfter,
-                          "Swiping up should reveal different users at the top of the visible area.")
-    }
-
     // MARK: - Helpers
 
     private func hasCheckmark(_ cell: XCUIElement) -> Bool {

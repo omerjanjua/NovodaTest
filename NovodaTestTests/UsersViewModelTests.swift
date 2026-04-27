@@ -9,6 +9,7 @@ import XCTest
 import UIKit
 @testable import NovodaTest
 
+@MainActor
 final class UsersViewModelTests: XCTestCase {
 
     private var sut: UsersViewModel!

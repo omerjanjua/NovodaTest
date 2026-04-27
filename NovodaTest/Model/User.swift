@@ -7,7 +7,7 @@
 
 import Foundation
 
-nonisolated struct User: Decodable, Equatable {
+struct User: Decodable, Equatable {
     let id: Int
     let rawDisplayName: String
     let reputation: Int

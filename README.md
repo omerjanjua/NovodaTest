@@ -23,6 +23,9 @@ To run app use the following steps.
 ## Architecture
 The app uses MVVM, the industry's most common architecture today. Because it separates logic from UI, making the code easier to test and maintain.
 
+## Security
+Normally for the Base URL we ideally would like to pull that from a config endpoint which is secure rather than storing it as a string in the code. Especially in scenarios where API keys / tokens are involved and sometimes included as part of the url.   
+
 ## Extra 
 Added extension to decodedHTMLEntities
 NSAttributedString is not very light weight. For performance reasons it's better to cache this when displaying on UI. But for the purpose of this exercise since it only requires to display 20 items it is ok.

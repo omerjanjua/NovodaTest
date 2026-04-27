@@ -20,7 +20,6 @@ protocol UserServiceProtocol {
 
 final class UserService: UserServiceProtocol {
     private let baseURL = "http://api.stackexchange.com/2.2/users?page=1&pagesize=20&order=desc&sort=reputation&site=stackoverflow"
-    private let session = URLSession.shared
     
     func fetchUsers() async throws -> [User] {
         
@@ -28,7 +27,7 @@ final class UserService: UserServiceProtocol {
             throw APIError.invalidURL
         }
         
-        let (data, response) = try await session.data(from: url)
+        let (data, response) = try await URLSession.shared.data(from: url)
         
         guard let httpResponse = response as? HTTPURLResponse,
               (200...299).contains(httpResponse.statusCode) else {

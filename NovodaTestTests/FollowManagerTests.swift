@@ -84,9 +84,7 @@ final class FollowManagerTests: XCTestCase {
     // MARK: - helpers
 
     private func uniqueUserID(line: UInt = #line) -> Int {
-        // Combine a large base with the source line and a random component
-        // so repeated calls within a test are also unique.
-        let id = 900_000_000 + Int(line) * 1_000 + Int.random(in: 0..<1_000)
+        let id = Int.random(in: 0..<100_000)
         touchedUserIDs.insert(id)
         return id
     }
